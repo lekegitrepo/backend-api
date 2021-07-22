@@ -422,6 +422,7 @@ DEPENDENCIES
   byebug
   dry-monads
   dry-rails
+  jbuilder (~> 2.7)
   jwt_sessions
   listen (~> 3.3)
   pg (~> 1.1)
