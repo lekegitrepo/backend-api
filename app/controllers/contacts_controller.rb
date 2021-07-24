@@ -10,7 +10,15 @@ class ContactsController < ApplicationController
 
   # GET /contacts/1
   def show
-    render json: @contact
+    #render json: @contact
+    respond_to do |format|
+      format.html
+      format.pdf do
+        pdf = Prawn::Document.new
+        pdf.text 'Hello World!'
+        send_data pdf.render, filename: 'pdf-test.pdf', type: 'application/pdf', disposition: 'inline'
+      end
+    end
   end
 
   # POST /contacts
