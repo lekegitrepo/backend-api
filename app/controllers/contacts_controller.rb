@@ -16,6 +16,7 @@ class ContactsController < ApplicationController
       format.pdf do
         pdf = Prawn::Document.new
         pdf.text 'Hello World!'
+        # pdf = PDFS::PdfTests.new
         send_data pdf.render, filename: 'pdf-test.pdf', type: 'application/pdf', disposition: 'inline'
       end
     end
