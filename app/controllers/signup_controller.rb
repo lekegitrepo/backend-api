@@ -1,6 +1,9 @@
 class SignupController < ApplicationController
   def create
-    user = User.new(user_params)
+    binding.pry
+    user = Spree::User.new(user_params)
+
+    binding.pry
 
     if user.save
       payload = { user_id: user.id }
