@@ -1,6 +1,5 @@
 class SignupController < ApplicationController
   def create
-    binding.pry
     user = Spree::User.new(user_params)
 
     binding.pry

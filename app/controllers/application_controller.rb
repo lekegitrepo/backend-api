@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   include JWTSessions::RailsAuthorization
-  binding.pry
   protect_from_forgery prepend: true
+  skip_before_action :verify_authenticity_token
   
   rescue_from JWTSessions::Errors::Unauthorized, with: :not_authorized
 
