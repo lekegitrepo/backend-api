@@ -2,7 +2,6 @@ class SignupController < ApplicationController
   def create
     user = Spree::User.new(email: params[:email], password: params[:password])
 
-    binding.pry
 
     if user.save
       payload = { user_id: user.id }
@@ -13,12 +12,11 @@ class SignupController < ApplicationController
                           value: tokens[:access],
                           httponly: true,
                           secure: Rails.env.production?)
-
+      
       render json: { csrf: tokens[:csrf] }
     else
       render json: { error: user.errors.full_messages.join(' ') }, status: :unprocessable_entity
     end
-    
   end
 
   private
