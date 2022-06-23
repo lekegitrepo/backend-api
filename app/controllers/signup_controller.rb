@@ -1,6 +1,6 @@
 class SignupController < ApplicationController
   def create
-    user = Spree::User.new(email: params[:email], password: params[:password])
+    user = Spree::User.new(email: params[:email], password: params[:password], password_confirmation: [:password_confirmation])
 
 
     if user.save
