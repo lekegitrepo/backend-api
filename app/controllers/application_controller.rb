@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include JWTSessions::RailsAuthorization
+  include Dry::Monads[:result]
   protect_from_forgery prepend: true
   skip_before_action :verify_authenticity_token
   

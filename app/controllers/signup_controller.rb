@@ -1,21 +1,17 @@
 class SignupController < ApplicationController
+  schema(:create) do
+    required(:email).value(:string)
+    required(:password).value(:string)
+    required(:password_confirmation).value(:string)
+    optional(:username).value(:string)
+  end
+
   def create
-    user = Spree::User.new(email: params[:email], password: params[:password], password_confirmation: [:password_confirmation])
-
-
-    if user.save
-      payload = { user_id: user.id }
-      session = JWTSessions::Session.new(payload: payload, refresh_by_access_allowed: true)
-      tokens = session.login
-
-      response.set_cookie(JWTSessions.access_cookie,
-                          value: tokens[:access],
-                          httponly: true,
-                          secure: Rails.env.production?)
-      
-      render json: { csrf: tokens[:csrf] }
-    else
-      render json: { error: user.errors.full_messages.join(' ') }, status: :unprocessable_entity
+    case resolve('api.users.create').call(safe_params.to_h)
+    in Success(user)
+      render :create, locals: { user: user }
+    in Failure(errors)
+      render json: { error: errors.full_messages.join(' ') }, status: :unprocessable_entity
     end
   end
 
@@ -24,5 +20,4 @@ class SignupController < ApplicationController
   def user_params
     params.permit(:email, :password, :password_confirmation)
   end
-  
 end
